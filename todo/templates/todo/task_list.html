@@ -1,0 +1,32 @@
+{% extends 'todo/base.html' %}
+
+{% block content %}
+<div class="task-list-header">
+    <h2>My Tasks</h2>
+    <a href="{% url 'task_create' %}" class="btn btn-primary">Add New Task</a>
+</div>
+
+<div class="tasks">
+    {% if tasks %}
+        {% for task in tasks %}
+        <div class="task">
+            <div class="task-title {% if task.completed %}completed{% endif %}">
+                <h3>{{ task.title }}</h3>
+                {% if task.description %}
+                <p>{{ task.description }}</p>
+                {% endif %}
+            </div>
+            <div class="task-buttons">
+                <a href="{% url 'task_complete' task.id %}" class="btn btn-success">
+                    {% if task.completed %}Mark Incomplete{% else %}Complete{% endif %}
+                </a>
+                <a href="{% url 'task_update' task.id %}" class="btn btn-warning">Edit</a>
+                <a href="{% url 'task_delete' task.id %}" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>No tasks yet. Add one using the button above!</p>
+    {% endif %}
+</div>
+{% endblock %}
